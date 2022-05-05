@@ -69,16 +69,14 @@ const initialState = {
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState)
 
-  // axios
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const authFetch = axios.create({
     baseURL: 'https://jobtrackerrapp.herokuapp.com/api/v1',
-  })
-  // request
+  });
 
-  authFetch.interceptors.request.use(
-    (config) => {
+  authFetch.interceptors.request.use((config) => {
       config.headers.common['Authorization'] = `Bearer ${state.token}`
       return config
     },
@@ -86,7 +84,6 @@ const AppProvider = ({ children }) => {
       return Promise.reject(error)
     }
   )
-  // response
 
   authFetch.interceptors.response.use(
     (response) => {
